@@ -17,6 +17,7 @@
     "hubot-redis-brain": "0.0.3",
     "hubot-rules": "^0.1.0",
     "hubot-scripts": "^2.5.16",
+	"hubot-slack": "^3.4.2",
     "hubot-shipit": "^0.2.0",
     "hubot-youtube": "^1.0.2"
   },
