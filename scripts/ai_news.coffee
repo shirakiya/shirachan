@@ -1,5 +1,5 @@
 # Description:
-#   ITmediaから「人工知能」のニュースを取得する
+#   Yahoo!ニュースから「人工知能」のニュースを取得する
 #
 # Commands:
 #   @shirachan news  - ITmedia上の「人工知能」のニュースを取得・表示します
