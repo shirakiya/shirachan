@@ -29,19 +29,27 @@ module.exports = (robot) ->
 
         # 記事があった場合の最初の特殊処理
         if firstArticleFlag
-          nowDatetime = moment().format("M月D日HH時mm分")
-          msg.send "#{nowDatetime}時点の「人工知能」のYahoo!ニュース更新分だよ！\n"
+          nowDatetime = _getNowDatetime()
+          msg.send "#{nowDatetime}時点の「人工知能」のYahoo!ニュース更新分だよ！"
           firstLink = link
           firstArticleFlag = false
         msg.send link
 
-      _saveLink(robot, firstLink) if firstLink
+      if firstLink
+        _saveLink(robot, firstLink)
+      else
+        nowDatetime = _getNowDatetime()
+        msg.send "#{nowDatetime}時点の「人工知能」のYahoo!ニュース更新分はなかったよ！"
+
     .catch (err) ->
       msg.send "エラーになっちゃいました...\n#{err}\n"
 
   _checkDuplicate = (robot, link) ->
     savedLink = robot.brain.get(key)
     return if link is savedLink then true else false
+
+  _getNowDatetime = ->
+    return moment().format("M月D日HH時mm分")
 
   _saveLink = (robot, link) ->
     robot.brain.set(key, link)
