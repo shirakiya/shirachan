@@ -7,4 +7,4 @@
 module.exports = (robot) ->
 
   robot.respond /PING$/i, (msg) ->
-    msg.send "いちいちうるせぇよ!!!! あ？Ping？ ったくめんどくせぇな...はいはいPong、Pong。これでいいんでしょ？"
+    msg.send "いちいちうるさいねん!!!! あ？Ping？ かぁぁーめんどくさ...はいはいPong、Pong。これでええんやろ？"
