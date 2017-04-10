@@ -21,11 +21,13 @@ module.exports = (robot) ->
     client.fetch(url, {})
     .then (result) ->
       $ = result.$
-      $('.feedArticle').each ->
+      $('.detailFeed').find('li').each ->
         # リンクの取得
-        link = $(this).find('dt>a').attr('href')
+        link = $(this).find('a').attr('href')
+        # "/thema/..."から始まる記事でないリンクであればcontinue
+        return true unless /^http/.test(link)
         # 重複チェック(重複であればbreak)
-        return false if _checkDuplicate(robot, link)
+        return false if _checkDuplicate(robot, redisKey, link)
 
         # 記事があった場合の最初の特殊処理
         if firstArticleFlag
@@ -36,10 +38,12 @@ module.exports = (robot) ->
         msg.send link
 
       if firstLink
-        _saveLink(robot, firstLink)
+        _saveLink(robot, redisKey, firstLink)
       else
         nowDatetime = _getNowDatetime()
         msg.send "#{nowDatetime}時点の「人工知能」のYahoo!ニュース更新分はなかったよ！"
+
+      _saveLink(robot, redisKey, firstLink) if firstLink
 
     .catch (err) ->
       msg.send "エラーになっちゃいました...\n#{err}\n"
@@ -51,6 +55,6 @@ module.exports = (robot) ->
   _getNowDatetime = ->
     return moment().format("M月D日HH時mm分")
 
-  _saveLink = (robot, link) ->
+  _saveLink = (robot, key, link) ->
     robot.brain.set(key, link)
     robot.brain.save()
